@@ -22,3 +22,7 @@ db.connect((err) => {
     console.log('Koneksi mysql berhasil');
 });
 const app = express();
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
