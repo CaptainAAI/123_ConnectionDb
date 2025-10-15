@@ -37,6 +37,27 @@ app.get('/biodata', (req, res) => {
   });
 });
 
+app.post('/biodata', (req, res) => {
+  const { nama, alamat, agama } = req.body;
+
+  if (!nama || !alamat || !agama) {
+    return res.status(400).json({ error: 'Data tidak lengkap' });
+  }
+
+  const query = 'INSERT INTO biodata (nama, alamat, agama) VALUES (?, ?, ?)';
+  db.query(query, [nama, alamat, agama], (err, result) => {
+    if (err) {
+      console.error('❌ Error query POST:', err);
+      res.status(500).json({ error: 'Gagal menambahkan data' });
+    } else {
+      res.json({ 
+        message: '✅ Data berhasil ditambahkan', 
+        id: result.insertId 
+      });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
